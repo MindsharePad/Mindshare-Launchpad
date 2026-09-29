@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F5F6FB">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('ms-theme')}catch(e){}
+if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
+document.documentElement.setAttribute('data-theme',t)})();
+</script>
+<title>Mindshare — launch coins that buy attention</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F3FA;--ink:#0E1330;--mute:#5B6180;--card:#fff;--line:#D9DCEE;--blue:#2F3BFF;--sun:#FFC933;--red:#FF4F5A;--on-blue:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B0E24;--ink:#F2F3FA;--mute:#9AA0C4;--card:#141939;--line:#262C57;--blue:#5B66FF}}
+:root[data-theme="dark"]{--bg:#0B0E24;--ink:#F2F3FA;--mute:#9AA0C4;--card:#141939;--line:#262C57;--blue:#5B66FF}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.5}
+.w{max-width:960px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.03em}
+.logo i{display:inline-block;width:14px;height:14px;background:var(--blue);border-radius:50%;margin-right:8px;box-shadow:6px 0 0 -2px var(--sun)}
+.btn{font:inherit;font-weight:600;border:0;border-radius:999px;padding:12px 22px;background:var(--blue);color:var(--on-blue);cursor:pointer;text-decoration:none;display:inline-block}
+.btn.alt{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+h1{font-size:clamp(44px,12vw,92px);line-height:.95;letter-spacing:-.04em;font-weight:800;margin:28px 0 18px}
+h2{font-size:clamp(26px,6vw,38px);letter-spacing:-.03em;margin:0 0 6px;line-height:1.1}
+.lead{font-size:19px;color:var(--mute);max-width:560px;margin:0 0 24px}
+.sec{padding:52px 0 0}
+.sub{color:var(--mute);margin:0 0 20px}
+/* mindshare bar */
+.bar{display:flex;height:64px;border-radius:14px;overflow:hidden;margin-top:34px;gap:3px}
+.bar div{transition:flex-grow .9s ease;min-width:0;display:flex;align-items:flex-end;padding:8px 10px;font-weight:800;font-size:13px;color:#0E1330;overflow:hidden;white-space:nowrap}
+.cap{display:flex;justify-content:space-between;color:var(--mute);font-size:14px;margin-top:8px}
+.live{display:inline-flex;align-items:center;gap:6px}.live:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);animation:p 1.6s infinite}
+@keyframes p{50%{opacity:.25}}@media(prefers-reduced-motion:reduce){.live:before{animation:none}.bar div{transition:none}}
+/* board */
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:16px 0;border-top:1px solid var(--line);align-items:center}
+.row:last-child{border-bottom:1px solid var(--line)}
+.nm{font-weight:800;font-size:18px;display:flex;gap:10px;align-items:center}
+.dot{width:14px;height:14px;border-radius:50%;flex:none}
+.ms{font-weight:800;font-size:26px;text-align:right;letter-spacing:-.02em}
+.meta{color:var(--mute);font-size:14px;display:flex;flex-wrap:wrap;gap:4px 14px}
+.up{color:#0A9E5B;font-weight:600}.dn{color:var(--red);font-weight:600}
+.track{grid-column:1/-1;height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.track b{display:block;height:100%;border-radius:6px;transition:width .9s ease}
+/* flywheel */
+.fly{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.st{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.st h3{margin:0 0 4px;font-size:19px}.st p{margin:0;color:var(--mute);font-size:15px}
+.split{display:flex;height:44px;border-radius:12px;overflow:hidden;margin:22px 0 8px;gap:3px;font-weight:600;font-size:13px}
+.split div{display:flex;align-items:center;padding:0 10px;color:#0E1330}
+/* launch */
+.lc{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:16px}
+@media(min-width:760px){.lc{grid-template-columns:1.1fr .9fr;padding:30px}}
+label{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+input,textarea,select{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{resize:vertical;min-height:84px}
+.f{margin-bottom:14px}input[type=range]{padding:0;accent-color:var(--blue)}
+.pv{background:var(--blue);color:var(--on-blue);border-radius:18px;padding:22px;align-self:start}
+.pv small{opacity:.8}.pv .big{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1;word-break:break-word}
+.pair{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}
+.pair span{background:rgba(255,255,255,.16);border-radius:999px;padding:6px 12px;font-weight:600;font-size:14px}
+.pv ul{margin:12px 0 0;padding-left:18px;font-size:15px}
+.row[role=button]{cursor:pointer}.row[role=button]:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.det{grid-column:1/-1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:4px}
+.det p{margin:0 0 8px}.hint{font-size:13px;color:var(--mute);margin:10px 0 0}
+.two{display:grid;gap:28px}@media(min-width:760px){.two{grid-template-columns:1.2fr 1fr}}
+.fi{padding:12px 0;border-top:1px solid var(--line);display:flex;gap:12px;justify-content:space-between}
+.fi b{white-space:nowrap}.fi span{color:var(--mute);font-size:14px}
+.pr{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.rk{font-weight:800;font-size:20px;width:26px}
+a{color:var(--blue)}.back{display:inline-block;margin:8px 0 0;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:22px 0}@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}.stats b{display:block;font-size:26px;letter-spacing:-.02em}.stats span{color:var(--mute);font-size:14px}
+.pf{display:grid;gap:0 16px}@media(min-width:760px){.pf{grid-template-columns:repeat(3,1fr)}}
+footer{padding:44px 0 36px;color:var(--mute);font-size:14px}
+/* ---- sleek pass ---- */
+:root{--bg:#F5F6FB;--line:#E3E5F1;--mute:#6B7091;--sh:0 1px 2px rgba(14,19,48,.05),0 8px 24px -12px rgba(14,19,48,.12)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#080B1E;--card:#10143A;--line:#20265A;--sh:0 1px 0 rgba(255,255,255,.04) inset,0 12px 32px -16px rgba(0,0,0,.7)}}
+:root[data-theme="dark"]{--bg:#080B1E;--card:#10143A;--line:#20265A;--sh:0 1px 0 rgba(255,255,255,.04) inset,0 12px 32px -16px rgba(0,0,0,.7)}
+body{font-feature-settings:"tnum","ss01";-webkit-font-smoothing:antialiased;background-image:radial-gradient(70% 380px at 50% 0,rgba(47,59,255,.16),transparent 70%);background-repeat:no-repeat}
+.w{max-width:1000px}
+header{position:sticky;top:0;z-index:20;margin:0 -20px;padding:12px 20px;background:color-mix(in srgb,var(--bg) 78%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-size:20px;letter-spacing:-.04em}
+.btn{padding:11px 20px;font-size:15px;letter-spacing:-.01em;background:linear-gradient(180deg,color-mix(in srgb,var(--blue) 88%,#fff),var(--blue));box-shadow:0 1px 0 rgba(255,255,255,.3) inset,0 6px 16px -6px var(--blue);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0)}
+.btn.alt{background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink)}.btn.alt:hover{box-shadow:inset 0 0 0 1px var(--mute)}
+h1{font-size:clamp(46px,11.5vw,88px);letter-spacing:-.055em;line-height:.92;margin:44px 0 16px;font-weight:800}
+h2{font-size:clamp(24px,5vw,32px);letter-spacing:-.04em}
+.lead{font-size:18px;line-height:1.55;max-width:540px}
+.sub{font-size:15px}
+.sec{padding:64px 0 0}
+.bar{height:72px;border-radius:18px;gap:2px;padding:4px;background:var(--card);border:1px solid var(--line);box-shadow:var(--sh)}
+.bar div{border-radius:13px;padding:9px 11px;font-size:12.5px;letter-spacing:-.01em}
+.cap{font-size:13px}
+.row{padding:18px 6px;border-top:1px solid var(--line);border-radius:0;transition:background .15s ease}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row[role=button]:hover{background:color-mix(in srgb,var(--card) 70%,transparent)}
+.nm{font-size:17px;letter-spacing:-.02em}.dot{width:12px;height:12px;box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 8%,transparent)}
+.ms{font-size:24px;letter-spacing:-.04em}
+.meta{font-size:13px}
+.track{height:4px}
+.det{border-radius:16px;box-shadow:var(--sh);margin:6px 0 2px}
+.st,.stats div,.lc{border-radius:20px;box-shadow:var(--sh)}
+.st{padding:22px}.st h3{letter-spacing:-.03em}
+.split{height:40px;border-radius:14px;padding:3px;background:var(--card);border:1px solid var(--line)}
+.split div{border-radius:10px;font-size:12.5px}
+.lc{padding:24px}
+label{font-size:14px;color:var(--mute);font-weight:600}
+input,textarea,select{border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 70%,var(--card));transition:border-color .15s,box-shadow .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px color-mix(in srgb,var(--blue) 22%,transparent);outline:none}
+.pv{border-radius:20px;background:linear-gradient(155deg,color-mix(in srgb,var(--blue) 90%,#fff),var(--blue) 55%,color-mix(in srgb,var(--blue) 70%,#000));box-shadow:0 20px 40px -20px var(--blue)}
+.pair span{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.12)}
+.fi,.pr{padding:14px 4px}
+.fi span{font-size:13px}
+.rk{color:var(--mute);font-size:16px}
+.hint{font-size:12.5px}
+footer{border-top:1px solid var(--line);margin-top:64px;padding-top:24px;font-size:13px}
+@media(max-width:520px){.sec{padding-top:52px}.ms{font-size:22px}}
+
+/* wallet connect */
+.wm{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(5,8,25,.58);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.wm.show{display:flex}
+.wc{width:min(430px,100%);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.25);padding:22px}
+.wh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.wh h3{margin:0;font-size:22px;letter-spacing:-.03em}
+.wx{border:0;background:transparent;color:var(--mute);font:inherit;font-size:28px;line-height:1;cursor:pointer;padding:2px 7px}
+.wsub{margin:0 0 16px;color:var(--mute);font-size:14px}
+.wlist{display:grid;gap:9px}
+.witem{width:100%;display:flex;align-items:center;gap:12px;padding:13px 14px;border:1px solid var(--line);border-radius:15px;background:var(--bg);color:var(--ink);font:inherit;font-weight:700;cursor:pointer;text-align:left}
+.witem:hover{border-color:var(--blue);background:color-mix(in srgb,var(--bg) 82%,var(--blue))}
+.wicon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);font-size:18px}
+.wstatus{margin:14px 0 0;color:var(--mute);font-size:13px;min-height:19px}
+.wprofile{display:none;margin-top:14px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--blue) 10%,var(--card));border:1px solid color-mix(in srgb,var(--blue) 25%,var(--line));font-size:13px;word-break:break-all}
+.wprofile b{display:block;margin-bottom:4px}
+.witem .wname{flex:1;min-width:0}
+.witem.off .wname{font-weight:600;color:var(--mute)}
+.wicon img{width:22px;height:22px;border-radius:6px;display:block}
+.wtag{margin-left:7px;font-size:10.5px;font-weight:600;letter-spacing:.01em;color:#0A9E5B;vertical-align:middle}
+.wstatus a{font-weight:600}
+/* brand mark */
+.logo{display:flex;align-items:center;gap:9px}
+.logo svg{height:28px;width:auto;display:block;overflow:visible}
+.lm-m{fill:var(--ink);stroke:var(--ink)}
+.lm-a{fill:var(--blue);stroke:var(--blue)}
+/* wallet brand icons */
+.wicon svg{width:26px;height:26px;display:block}
+/* theme switch */
+.hr{display:flex;align-items:center;gap:12px}
+.tt{position:relative;width:56px;height:30px;flex:none;padding:0;border-radius:999px;border:1px solid var(--line);background:var(--card);cursor:pointer;box-shadow:var(--sh);transition:border-color .15s}
+.tt:hover{border-color:var(--mute)}
+.tt:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.tk{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;transition:transform .22s ease}
+.tt[aria-checked="true"] .tk{transform:translateX(26px)}
+.tk svg{width:13px;height:13px;grid-area:1/1;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tt[aria-checked="true"] .sun,.tt .moon{display:none}
+.tt[aria-checked="true"] .moon{display:block}
+@media(prefers-reduced-motion:reduce){.tk{transition:none}}
+@media(max-width:420px){.hr{gap:8px}.hr .btn{padding:9px 14px;font-size:14px}.logo{font-size:18px;gap:7px}.logo svg{height:24px}}
+/* image + banner uploads */
+.f .opt{font-weight:500;color:var(--mute);font-size:12px;margin-left:4px}
+.upz{position:relative;display:block;border:1.5px dashed var(--line);border-radius:14px;background:var(--card);overflow:hidden;transition:border-color .15s,background-color .15s}
+.upz:hover{border-color:var(--blue)}
+.upz:focus-within{outline:3px solid var(--sun);outline-offset:2px}
+.upz.has{border-style:solid}
+.upz input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0}
+.upz .uph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:100%;padding:12px;text-align:center;color:var(--mute);font-size:13px;font-weight:600;pointer-events:none}
+.upz .uph svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.upz .uth{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;pointer-events:none}
+.upz.has .uth{display:block}
+.upz.has .uph{visibility:hidden}
+#imageZone,#bannerZone{width:100%;aspect-ratio:3/1}
+#imageZone .uth{object-fit:contain;background:var(--bg)}
+.uhint{margin-top:6px;font-size:12px;color:var(--mute)}
+.urm{margin-top:6px;font:inherit;font-size:13px;font-weight:600;color:var(--red);background:transparent;border:0;padding:4px 0;cursor:pointer}
+.urm[hidden]{display:none}
+.uerr{min-height:0;margin-top:6px;font-size:13px;font-weight:600;color:var(--red)}
+.uerr:empty{display:none}
+/* preview card: banner + coin image */
+.pvb{margin:-22px -22px 16px;border-radius:20px 20px 0 0;overflow:hidden;aspect-ratio:3/1;background:rgba(0,0,0,.15)}
+.pvb[hidden],.pvi[hidden]{display:none}
+.pvb img{width:100%;height:100%;object-fit:cover;display:block}
+.pvh{display:flex;align-items:center;gap:14px;margin-top:4px}
+.pvi{width:58px;height:58px;flex:none;border-radius:14px;overflow:hidden;border:2px solid rgba(255,255,255,.35);background:rgba(0,0,0,.15)}
+.pvi img{width:100%;height:100%;object-fit:cover;display:block}
+/* connected wallet chip */
+.wa{position:relative}
+.wa[hidden],.wmenu[hidden]{display:none}
+.wchip{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 12px 0 8px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600;font-size:14px;letter-spacing:-.01em;cursor:pointer;box-shadow:var(--sh);transition:border-color .15s}
+.wchip:hover{border-color:var(--mute)}
+.wchip:focus-visible,.wmi:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wci{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:var(--bg);flex:none;font-size:13px;line-height:1}
+.wci img,.wci svg{width:22px;height:22px;display:block}
+.wcaret{color:var(--mute);font-size:11px}
+.wmenu{position:absolute;right:0;top:calc(100% + 8px);min-width:220px;max-width:min(300px,calc(100vw - 32px));background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px -12px rgba(0,0,0,.35);padding:8px;z-index:40;text-align:left}
+.wmh{padding:8px 10px 10px;font-size:12px;color:var(--mute)}
+.wmh b{display:block;margin-top:3px;color:var(--ink);font-size:12.5px;font-weight:600;word-break:break-all}
+.wmi{display:block;width:100%;text-align:left;font:inherit;font-weight:600;font-size:14px;color:var(--ink);background:transparent;border:0;border-radius:10px;padding:10px;cursor:pointer}
+.wmi:hover{background:var(--bg)}
+.wmi.danger{color:var(--red)}
+@media(max-width:560px){header.is-connected .hr>.btn{display:none}}
+.wa{flex:none}.wchip{white-space:nowrap}.tt{flex:none}
+@media(max-width:420px){.wchip{font-size:13px;gap:6px;padding:0 10px 0 7px}.wcaret{display:none}}
+@media(max-width:380px){header.is-connected .logo{font-size:0}}
+/* footer socials (centered) */
+footer{text-align:center}
+.fsoc{display:flex;flex-direction:column;align-items:center;gap:12px}
+.fx{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:600;font-size:14px;text-decoration:none}
+.fx svg{width:16px;height:16px;fill:currentColor;flex:none}
+.fx small{font-size:12px;font-weight:600;color:var(--mute)}
+.fx[aria-disabled="true"]{cursor:default}
+.fca{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;max-width:100%}
+.fca>span{font-weight:700;color:var(--ink);font-size:13px}
+.ca{font:inherit;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;color:var(--ink);background:transparent;border:0;padding:0;margin:0;text-align:center;cursor:pointer;word-break:break-all;-webkit-tap-highlight-color:transparent}
+.ca:hover{color:var(--blue)}
+.ca:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:4px}
+.ca[disabled]{cursor:default;color:var(--mute);font-family:inherit}
+.ca[disabled]:hover{color:var(--mute)}
+.cok{font-size:12px;font-weight:600;color:#0A9E5B;min-height:16px}
+/* ---- dark mode, eye-comfort tuning (softer text, no pure white, readable links) ---- */
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--ink:#E4E7F5;--mute:#A3A9CC;--blue:#5560FF;--link:#9BA4FF}}
+:root[data-theme="dark"]{color-scheme:dark;--ink:#E4E7F5;--mute:#A3A9CC;--blue:#5560FF;--link:#9BA4FF}
+:root[data-theme="light"]{color-scheme:light}
+:root{--link:var(--blue)}
+a:not(.btn):not(.fx){color:var(--link)}
+:root[data-theme="dark"] .up{color:#3DDC97}
+:root[data-theme="dark"] .wtag,:root[data-theme="dark"] .cok{color:#3DDC97}
+:root[data-theme="dark"] .pv{box-shadow:0 20px 40px -24px rgba(85,96,255,.55)}
+body{transition:background-color .25s ease,color .25s ease}
+@media(prefers-reduced-motion:reduce){body{transition:none}}
+</style>
+</head>
+<body>
+<div class="wm" id="walletModal" role="dialog" aria-modal="true" aria-labelledby="walletTitle">
+  <div class="wc">
+    <div class="wh">
+      <h3 id="walletTitle">Connect your wallet</h3>
+      <button class="wx" id="walletClose" aria-label="Close">&times;</button>
+    </div>
+    <p class="wsub">Connect to create your Mindshare profile. No transaction or signature is requested.</p>
+    <div class="wlist" id="walletList"></div>
+    <p class="wstatus" id="walletStatus" aria-live="polite"></p>
+    <div class="wprofile" id="walletProfile"><b>Connected wallet</b><span id="walletAddress"></span></div>
+  </div>
+</div>
+
+<div class="w">
+<header><div class="logo"><svg viewBox="140 115 305 250" role="img" aria-label="Mindshare logo" xmlns="http://www.w3.org/2000/svg"><polygon class="lm-m" points="158,140 288,213 419,133 419,178 285,264 214,222 214,320 180,346 158,340" stroke-width="12" stroke-linejoin="round"/><polygon class="lm-a" points="431,197 412,277 398,264 346,355 263,355 380,254 352,247" stroke-width="4" stroke-linejoin="round"/></svg>Mindshare</div><div class="hr"><button type="button" class="tt" id="themeToggle" role="switch" aria-checked="false" aria-label="Dark mode"><span class="tk"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span></button><div class="wa" id="walletArea" hidden><button type="button" class="wchip" id="walletChip" aria-haspopup="true" aria-expanded="false" aria-controls="walletMenu"><span class="wci" id="walletChipIcon" aria-hidden="true"></span><span id="walletChipAddr"></span><span class="wcaret" aria-hidden="true">&#9662;</span></button><div class="wmenu" id="walletMenu" role="menu" hidden><div class="wmh"><span id="walletMenuName">Connected</span><b id="walletMenuAddr"></b></div><button type="button" class="wmi" id="walletCopy" role="menuitem">Copy address</button><button type="button" class="wmi danger" id="walletDisconnect" role="menuitem">Disconnect</button></div></div><a class="btn" href="#launch">Launch a coin</a></div></header>
+<div id="home">
+
+<section>
+<h1>Attention is the asset.</h1>
+<p class="lead">Launch a memecoin paired with an AI agent stock. Every creator fee goes straight into promoting your coin, so the more it's talked about, the more it funds its own reach.</p>
+<a class="btn" href="#launch">Launch a coin</a> <a class="btn alt" href="#board">See who's winning</a>
+<div class="bar" id="bar" aria-label="Share of attention by coin"></div>
+<div class="cap"><span class="live">Live share of attention</span><span>Updates every few seconds</span></div>
+</section>
+
+<section class="sec" id="board">
+<h2>The attention board</h2>
+<p class="sub">Coins ranked by share of total attention across posts, replies, and mentions.</p>
+<div id="rows"></div>
+<p class="hint">Tap a coin to open its agent.</p>
+</section>
+
+<section class="sec two">
+<div>
+<h2>What fees just bought</h2>
+<p class="sub">Every spend by every agent, as it happens.</p>
+<div id="feed"></div>
+</div>
+<div>
+<h2>Top promoters</h2>
+<p class="sub">Post about a coin and get paid from its fees.</p>
+<div id="pro"></div>
+</div>
+</section>
+
+<section class="sec" id="promote">
+<h2>Become a promoter</h2>
+<p class="sub">Pick a coin, post about it, and get paid from its promotion pool every cycle.</p>
+<div class="lc" style="grid-template-columns:1fr">
+<div class="pf">
+<div class="f"><label for="ph">Your handle</label><input id="ph" placeholder="@yourname" maxlength="24"></div>
+<div class="f"><label for="pc">Coin to promote</label><select id="pc"></select></div>
+<div class="f"><label for="pch">Where you post</label><select id="pch"><option>X</option><option>Telegram</option><option>TikTok</option><option>YouTube</option></select></div>
+</div>
+<div><button class="btn" id="pj">Join as promoter</button><p id="pm" style="margin:12px 0 0" aria-live="polite"></p></div>
+</div>
+</section>
+
+<section class="sec">
+<h2>Fees buy attention</h2>
+<p class="sub">Every trade pays a creator fee. Nothing sits in a wallet: it's spent the same cycle.</p>
+<div class="fly">
+<div class="st"><h3>Trades create fees</h3><p>Each buy and sell on the coin or its agent stock pays the creator fee.</p></div>
+<div class="st"><h3>Agent spends the fees</h3><p>The paired agent buys posts, boosts, and bounties for the people who spread your coin.</p></div>
+<div class="st"><h3>Attention brings traders</h3><p>More reach means more volume, which means more fees to spend next cycle.</p></div>
+</div>
+<div class="split" id="split" aria-label="Default fee split"></div>
+<div class="cap"><span>Default split of every creator fee. You set it at launch.</span></div>
+</section>
+
+<section class="sec" id="launch">
+<h2>Launch a coin and its agent stock</h2>
+<p class="sub">Two tokens, one launch. The coin is the meme. The agent stock is a share in the agent that runs its promotion.</p>
+<div class="lc">
+<div>
+<div class="f"><label for="n">Coin name</label><input id="n" value="Moon Cat" maxlength="24"></div>
+<div class="f"><label for="t">Ticker</label><input id="t" value="MCAT" maxlength="8"></div>
+<div class="f"><label for="imageIn">Coin image</label>
+<div class="upz" id="imageZone"><input type="file" id="imageIn" accept="image/png,image/jpeg,image/gif,image/webp" aria-describedby="imageHint imageErr"><div class="uph"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg><span>Add image</span></div><img class="uth" alt=""></div>
+<div class="uhint" id="imageHint">PNG, JPG, GIF or WEBP, up to 5 MB. Square (1000 × 1000) works best.</div>
+<button type="button" class="urm" id="imageRm" hidden>Remove image</button>
+<div class="uerr" id="imageErr" role="alert"></div></div>
+<div class="f"><label for="bannerIn">Banner <span class="opt">optional</span></label>
+<div class="upz" id="bannerZone"><input type="file" id="bannerIn" accept="image/png,image/jpeg,image/gif,image/webp" aria-describedby="bannerHint bannerErr"><div class="uph"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg><span>Add banner</span></div><img class="uth" alt=""></div>
+<div class="uhint" id="bannerHint">PNG, JPG, GIF or WEBP, up to 5 MB. Wide 3:1 (1500 × 500) works best.</div>
+<button type="button" class="urm" id="bannerRm" hidden>Remove banner</button>
+<div class="uerr" id="bannerErr" role="alert"></div></div>
+<div class="f"><label for="p">Agent persona</label><textarea id="p">A loud, funny cat who tells everyone the moon is one good meme away.</textarea></div>
+<div class="f"><label for="s">Fees sent to promotion: <b id="sv">70%</b></label><input id="s" type="range" min="40" max="90" step="5" value="70"></div>
+<div class="f"><label for="c">Where to promote first</label><select id="c"><option>X posts and replies</option><option>Telegram groups</option><option>Creator bounties</option><option>All channels</option></select></div>
+</div>
+<div class="pv" aria-live="polite">
+<div class="pvb" id="pvBanner" hidden><img alt=""></div>
+<small>Launch preview</small>
+<div class="pvh"><div class="pvi" id="pvImg" hidden><img alt=""></div><div class="big" id="pn">Moon Cat</div></div>
+<div class="pair"><span id="p1">$MCAT</span><span id="p2">a$MCAT agent stock</span></div>
+<ul>
+<li><b id="q1">70%</b> of every fee goes to <span id="q2">X posts and replies</span></li>
+<li><b id="q3">20%</b> buys back the agent stock</li>
+<li><b>10%</b> keeps the protocol running</li>
+</ul>
+<p style="margin:18px 0 0"><button type="button" class="btn" style="background:var(--sun);color:#0E1330" id="go">Launch Moon Cat</button></p>
+<p id="msg" style="margin:10px 0 0;font-size:14px"></p>
+</div>
+</div>
+</section>
+
+</div>
+<div id="ap" style="display:none"></div>
+<footer>
+<div class="fsoc">
+<a class="fx" id="xLink" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>X</span><small>coming soon</small></a>
+<div class="fca"><span>CA</span><button type="button" class="ca" id="caBtn" disabled>Coming soon</button><span class="cok" id="caOk" aria-live="polite"></span></div>
+</div>
+</footer>
+</div>
+<script>
+var C=[["MCAT","#FFC933",22],["BRAIN","#FF4F5A",19],["ZEN","#7CE0B8",16],["DOGE2","#8FA0FF",14],["PEPA","#FF9AD5",11],["OWL","#FFB27A",8]];
+C=C.map(function(c,i){return{t:c[0],c:c[1],v:c[2],fee:[4.2,3.1,2.4,2.0,1.3,.9][i],d:0}});
+var PER={MCAT:'Loud cat, sure the moon is one meme away.',BRAIN:'Calm analyst that explains every candle.',ZEN:'Monk energy, posts once a day.',DOGE2:'Chaotic good, replies to everyone.',PEPA:'Pink, punchy, allergic to FUD.',OWL:'Night-shift poster, deadpan.'},open=null;
+var bar=document.getElementById('bar'),rows=document.getElementById('rows');
+function norm(){var s=C.reduce(function(a,c){return a+c.v},0);C.forEach(function(c){c.p=c.v/s*100})}
+function draw(){norm();var o=C.slice().sort(function(a,b){return b.p-a.p});
+if(!bar.children.length)o.forEach(function(c){var d=document.createElement('div');d.id='b'+c.t;bar.appendChild(d)});
+o.forEach(function(c){var d=document.getElementById('b'+c.t);d.style.flexGrow=c.p;d.style.background=c.c;d.textContent=c.p>9?'$'+c.t+' '+c.p.toFixed(0)+'%':''});
+rows.innerHTML=o.map(function(c){var up=c.d>=0,op=open===c.t;return '<div class="row" role="button" tabindex="0" aria-expanded="'+op+'" data-t="'+c.t+'"><div class="nm"><span class="dot" style="background:'+c.c+'"></span>$'+c.t+'</div><div class="ms">'+c.p.toFixed(1)+'%</div><div class="meta"><span class="'+(up?'up':'dn')+'">'+(up?'+':'')+c.d.toFixed(1)+' pts today</span><span>'+c.fee.toFixed(1)+' SOL promoted</span></div><div class="track"><b style="width:'+Math.min(100,c.p*3)+'%;background:'+c.c+'"></b></div>'+(op?'<div class="det"><p><b>Agent persona:</b> '+PER[c.t]+'</p><div class="meta"><span>a$'+c.t+' price: '+(0.02+c.p*0.004).toFixed(3)+' SOL</span><span>Next spend: within the hour</span><span>Spent this week: '+c.fee.toFixed(1)+' SOL</span></div><p class="hint"><a href="#/agent/'+c.t+'">Open full agent page</a></p></div>':'')+'</div>'}).join('')}
+function tick(){C.forEach(function(c){var n=Math.max(2,c.v+(Math.random()-.48)*2.2);c.d+=(n-c.v)/2;c.v=n;c.fee+=Math.random()*.04});draw();rt(true)}
+draw();setInterval(tick,3000);
+document.getElementById('split').innerHTML='<div style="flex:70;background:var(--sun)">70% promotion</div><div style="flex:20;background:#8FA0FF">20%</div><div style="flex:10;background:#FF9AD5"></div>';
+var $=function(i){return document.getElementById(i)};
+function pv(){var n=$('n').value.trim()||'Your coin',t=($('t').value.trim()||'TICKER').toUpperCase(),s=+$('s').value,r=100-s,b=Math.round(r*2/3);
+$('sv').textContent=s+'%';$('pn').textContent=n;$('p1').textContent='$'+t;$('p2').textContent='a$'+t+' agent stock';$('q1').textContent=s+'%';$('q2').textContent=$('c').value;$('q3').textContent=b+'%';
+$('go').textContent='Launch '+n;$('split').innerHTML='<div style="flex:'+s+';background:var(--sun)">'+s+'% promotion</div><div style="flex:'+b+';background:#8FA0FF">'+b+'%</div><div style="flex:'+(r-b)+';background:#FF9AD5"></div>'}
+['n','t','s','c'].forEach(function(i){$(i).addEventListener('input',pv)});
+$('go').onclick=function(){
+  if(window.connectedWalletAddress){var a=window.connectedWalletAddress;$('msg').textContent='Wallet connected: '+(a.length>12?a.slice(0,6)+'\u2026'+a.slice(-6):a)+'. No transaction was requested.';return}
+  $('msg').textContent='Connect your Solana wallet to continue. No transaction will be requested.';
+  openWalletModal();
+};
+pv();
+function tog(e){if(e.target.closest('a'))return;var r=e.target.closest('.row');if(!r)return;if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;e.preventDefault();open=open===r.dataset.t?null:r.dataset.t;draw();var q=rows.querySelector('[data-t="'+open+'"]');if(q)q.focus()}
+rows.addEventListener('click',tog);rows.addEventListener('keydown',tog);
+var ACT=['Paid 12 creators to reply under a trending post','Boosted a launch thread','Funded a 24h meme bounty','Bought a pinned post slot','Rewarded its top 5 promoters','Sponsored a Telegram raid'],fd=$('feed'),fl=[];
+function addF(){var c=C[Math.floor(Math.random()*C.length)],d=new Date();fl.unshift('<div class="fi"><div><b style="color:'+c.c+'">$'+c.t+'</b> '+ACT[Math.floor(Math.random()*ACT.length)]+'</div><span>'+(0.05+Math.random()*.35).toFixed(2)+' SOL &middot; '+d.toTimeString().slice(0,5)+'</span></div>');fl=fl.slice(0,6);fd.innerHTML=fl.join('')}
+for(var i=0;i<4;i++)addF();setInterval(addF,4500);
+var PR=[['@moonwalker','MCAT',412,3.2],['@candlenerd','BRAIN',377,2.7],['@zenposter','ZEN',290,2.1],['@raidqueen','DOGE2',268,1.8],['@nightowl','OWL',201,1.2]];
+$('pro').innerHTML=PR.map(function(p,i){return '<div class="pr"><span class="rk">'+(i+1)+'</span><div><b>'+p[0]+'</b><br><span style="color:var(--mute);font-size:14px">$'+p[1]+' &middot; '+p[2]+' posts this week</span></div><b>'+p[3]+' SOL</b></div>'}).join('');
+
+var AF={};C.forEach(function(c){AF[c.t]=[0,1,2,3].map(function(i){return [ACT[(i*2+c.t.length)%ACT.length],(0.06+((i*7+c.t.charCodeAt(0))%30)/100).toFixed(2),(i+1)*3+'h ago']})});
+$('pc').innerHTML=C.map(function(c){return '<option value="'+c.t+'">$'+c.t+'</option>'}).join('');
+$('pj').onclick=function(){var h=$('ph').value.trim();if(!h){$('pm').textContent='Enter your handle to join.';return}var c=C.filter(function(x){return x.t===$('pc').value})[0];$('pm').innerHTML='You\u2019re in, <b>'+h+'</b>. Post about <b>$'+c.t+'</b> on '+$('pch').value+' and share this week\u2019s pool of about <b>'+(c.fee*0.7).toFixed(1)+' SOL</b>. Demo only, nothing is recorded yet.'};
+var home=$('home'),ap=$('ap'),last='';
+function goP(t){location.hash='';setTimeout(function(){$('pc').value=t;$('promote').scrollIntoView()},40)}
+window.goP=goP;
+function rt(quiet){var m=location.hash.match(/^#\/agent\/(\w+)/),c=m&&C.filter(function(x){return x.t===m[1]})[0];home.style.display=c?'none':'';ap.style.display=c?'':'none';if(!c){last='';return}
+if(quiet&&last===c.t){var v=ap.querySelectorAll('.stats b');v[0].textContent=c.p.toFixed(1)+'%';v[1].textContent=(c.d>=0?'+':'')+c.d.toFixed(1);v[2].textContent=c.fee.toFixed(1)+' SOL';v[3].textContent=(0.02+c.p*0.004).toFixed(3);return}
+last=c.t;window.scrollTo(0,0);
+ap.innerHTML='<a class="back" href="#board" onclick="location.hash=\'\'">\u2190 All coins</a><h1 style="color:'+c.c+'">$'+c.t+'</h1><div class="pair"><span style="background:var(--card);border:1px solid var(--line)">$'+c.t+' coin</span><span style="background:var(--card);border:1px solid var(--line)">a$'+c.t+' agent stock</span></div><p class="lead">'+PER[c.t]+'</p><div class="stats"><div><b>'+c.p.toFixed(1)+'%</b><span>Share of attention</span></div><div><b>'+(c.d>=0?'+':'')+c.d.toFixed(1)+'</b><span>Points today</span></div><div><b>'+c.fee.toFixed(1)+' SOL</b><span>Promoted this week</span></div><div><b>'+(0.02+c.p*0.004).toFixed(3)+'</b><span>a$'+c.t+' price (SOL)</span></div></div><button class="btn" onclick="goP(\''+c.t+'\')">Become a promoter for $'+c.t+'</button><div class="sec"><h2>Recent spends</h2><p class="sub">What this agent bought with its fees.</p>'+AF[c.t].map(function(a){return '<div class="fi"><div>'+a[0]+'</div><span>'+a[1]+' SOL &middot; '+a[2]+'</span></div>'}).join('')+'</div>'}
+window.addEventListener('hashchange',function(){rt()});rt();
+</script>
+
+<script>
+/* ---- Fill these in when they exist. Leave empty until then. ---- */
+var X_URL='';            /* e.g. 'https://x.com/yourhandle' */
+var CONTRACT_ADDRESS=''; /* the token CA; tapping it copies it */
+(function(){
+  var tg=document.getElementById('themeToggle'),root=document.documentElement,mq=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)'),tc=document.querySelector('meta[name="theme-color"]');
+  function paint(t){root.setAttribute('data-theme',t);tg.setAttribute('aria-checked',t==='dark'?'true':'false');if(tc)tc.setAttribute('content',t==='dark'?'#080B1E':'#F5F6FB')}
+  paint(root.getAttribute('data-theme')==='dark'?'dark':'light');
+  tg.addEventListener('click',function(){var n=root.getAttribute('data-theme')==='dark'?'light':'dark';paint(n);try{localStorage.setItem('ms-theme',n)}catch(e){}});
+  if(mq&&mq.addEventListener)mq.addEventListener('change',function(e){var st=null;try{st=localStorage.getItem('ms-theme')}catch(x){}if(!st)paint(e.matches?'dark':'light')});
+})();
+(function(){
+  var x=document.getElementById('xLink'),b=document.getElementById('caBtn'),ok=document.getElementById('caOk'),t;
+  if(X_URL){x.href=X_URL;x.target='_blank';x.rel='noopener noreferrer';x.removeAttribute('aria-disabled');x.querySelector('small').remove()}
+  if(CONTRACT_ADDRESS){
+    b.disabled=false;b.textContent=CONTRACT_ADDRESS;b.title='Tap to copy';b.setAttribute('aria-label','Contract address '+CONTRACT_ADDRESS+'. Tap to copy.');
+    b.addEventListener('click',function(){
+      function done(m){ok.textContent=m;clearTimeout(t);t=setTimeout(function(){ok.textContent=''},1800)}
+      function fallback(){var a=document.createElement('textarea');a.value=CONTRACT_ADDRESS;a.setAttribute('readonly','');a.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(a);a.select();a.setSelectionRange(0,a.value.length);var r=false;try{r=document.execCommand('copy')}catch(e){}document.body.removeChild(a);done(r?'Copied':'Copy failed')}
+      if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(CONTRACT_ADDRESS).then(function(){done('Copied')},fallback)}else fallback();
+    });
+  }
+})();
+</script>
+
+<script>
+/* Image + banner pickers. Files stay in the browser: nothing is uploaded yet.
+   window.launchAssets.image / .banner hold the chosen File objects for when the launch is wired up. */
+(function(){
+  var MAX=5*1024*1024,OK=['image/png','image/jpeg','image/gif','image/webp'];
+  window.launchAssets={image:null,banner:null};
+  function wire(kind){
+    var $=function(i){return document.getElementById(i)};
+    var inp=$(kind+'In'),zone=$(kind+'Zone'),thumb=zone.querySelector('.uth'),err=$(kind+'Err'),rm=$(kind+'Rm');
+    var box=$(kind==='image'?'pvImg':'pvBanner'),pimg=box.querySelector('img'),url=null;
+    function drop(){if(url){URL.revokeObjectURL(url);url=null}}
+    inp.addEventListener('change',function(){
+      var f=inp.files&&inp.files[0];err.textContent='';
+      if(!f)return;
+      if(OK.indexOf(f.type)<0){err.textContent='Use a PNG, JPG, GIF or WEBP image.';inp.value='';return}
+      if(f.size>MAX){err.textContent='That file is '+(f.size/1048576).toFixed(1)+' MB. The limit is 5 MB.';inp.value='';return}
+      drop();url=URL.createObjectURL(f);window.launchAssets[kind]=f;
+      thumb.src=url;pimg.src=url;zone.classList.add('has');box.hidden=false;rm.hidden=false;
+    });
+    rm.addEventListener('click',function(){
+      drop();window.launchAssets[kind]=null;inp.value='';err.textContent='';
+      thumb.removeAttribute('src');pimg.removeAttribute('src');zone.classList.remove('has');box.hidden=true;rm.hidden=true;
+    });
+  }
+  wire('image');wire('banner');
+})();
+</script>
+
+<script type="module">
+import { getWallets } from 'https://esm.sh/@wallet-standard/app';
+
+const walletModal = document.getElementById('walletModal');
+const walletList = document.getElementById('walletList');
+const walletStatus = document.getElementById('walletStatus');
+const walletProfile = document.getElementById('walletProfile');
+const walletAddress = document.getElementById('walletAddress');
+const walletClose = document.getElementById('walletClose');
+
+let walletRegistry = null;
+let selectedWallet = null;
+
+function shortAddress(address) {
+  return address.length > 12 ? address.slice(0, 6) + '…' + address.slice(-6) : address;
+}
+
+function solanaWallets() {
+  if (!walletRegistry) return [];
+  return walletRegistry.get().filter(function(wallet) {
+    return Array.isArray(wallet.chains) && wallet.chains.some(function(chain) {
+      return String(chain).toLowerCase().startsWith('solana:');
+    });
+  });
+}
+
+function walletLabel(wallet) {
+  return wallet.name || 'Solana wallet';
+}
+
+/* Popular Solana wallets, always listed. `key` is matched against the name a wallet registers with. */
+const POPULAR_WALLETS = [
+  { key: 'phantom',  name: 'Phantom',         url: 'https://phantom.app/download',
+    deeplink: function(u, o) { return 'https://phantom.app/ul/browse/' + u + '?ref=' + o; } },
+  { key: 'solflare', name: 'Solflare',        url: 'https://solflare.com/download',
+    deeplink: function(u, o) { return 'https://solflare.com/ul/v1/browse/' + u + '?ref=' + o; } },
+  { key: 'backpack', name: 'Backpack',        url: 'https://backpack.app/downloads',
+    deeplink: function(u, o) { return 'https://backpack.app/ul/v1/browse/' + u + '?ref=' + o; } },
+  { key: 'jupiter',  name: 'Jupiter Wallet',  url: 'https://jup.ag' },
+  { key: 'coinbase', name: 'Coinbase Wallet', url: 'https://www.coinbase.com/wallet/downloads',
+    deeplink: function(u) { return 'https://go.cb-w.com/dapp?cb_url=' + u; } },
+  { key: 'trust',    name: 'Trust Wallet',    url: 'https://trustwallet.com/download',
+    deeplink: function(u) { return 'https://link.trustwallet.com/open_url?coin_id=501&url=' + u; } },
+  { key: 'okx',      name: 'OKX Wallet',      url: 'https://www.okx.com/web3' },
+  { key: 'exodus',   name: 'Exodus',          url: 'https://www.exodus.com/download' }
+];
+
+/* Simplified brand-colour marks, used until a wallet is detected (a detected wallet supplies its own official icon). */
+const WALLET_ICONS = {
+  phantom: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#AB9FF2"/><path fill="#fff" d="M16 6.5c-5 0-9 4-9 9.2 0 3.4 1.7 6.6 3.7 7.5 1 .4 1.9-.3 2.4-1.1.5-.7 1.2-1 1.9-.4.5.5 1.1.9 1.9.9s1.4-.4 1.9-.9c.7-.6 1.4-.3 1.9.4.5.8 1.400 1.500 2.400 1.100 2-.9 3.700-4.100 3.700-7.500 0-5.200-4-9.200-9-9.200z" transform="translate(-.1 0)"/><ellipse cx="12.6" cy="14.6" rx="1.3" ry="2.1" fill="#AB9FF2"/><ellipse cx="18.4" cy="14.6" rx="1.3" ry="2.1" fill="#AB9FF2"/></svg>',
+  solflare: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#FFEF46"/><path fill="#1B1B1B" d="M16 5l2.400 8.100L26.500 16l-8.100 2.900L16 27l-2.400-8.100L5.500 16l8.100-2.900z"/></svg>',
+  backpack: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#E33E3F"/><path d="M12.500 11.500V10a3.500 3.500 0 0 1 7 0v1.500" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><rect x="9.500" y="11.500" width="13" height="14" rx="3.500" fill="#fff"/><rect x="12" y="18" width="8" height="5" rx="1.600" fill="#E33E3F"/></svg>',
+  jupiter: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#111C20"/><circle cx="16" cy="16" r="7" fill="#C7F284"/><ellipse cx="16" cy="16" rx="11" ry="3.800" fill="none" stroke="#F3A83B" stroke-width="1.600" transform="rotate(-25 16 16)"/></svg>',
+  coinbase: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0052FF"/><circle cx="16" cy="16" r="9" fill="#fff"/><rect x="12.500" y="12.500" width="7" height="7" rx="1.800" fill="#0052FF"/></svg>',
+  trust: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0500FF"/><path fill="#fff" d="M16 5.500c2.600 2 5.400 2.900 8 2.900V16c0 5.200-3.400 8.500-8 10.500C11.400 24.500 8 21.200 8 16V8.400c2.600 0 5.400-.9 8-2.900z"/></svg>',
+  okx: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#000"/><g fill="#fff"><rect x="8.500" y="8.500" width="5" height="5"/><rect x="18.500" y="8.500" width="5" height="5"/><rect x="13.500" y="13.500" width="5" height="5"/><rect x="8.500" y="18.500" width="5" height="5"/><rect x="18.500" y="18.500" width="5" height="5"/></g></svg>',
+  exodus: '<svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="exg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#8B3DFF"/><stop offset="1" stop-color="#00C2FF"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#exg)"/><path d="M10 10l12 12M22 10L10 22" stroke="#fff" stroke-width="3.400" stroke-linecap="round"/></svg>'
+};
+
+function matchesKey(wallet, key) {
+  const n = String(wallet.name || '').toLowerCase().replace(/\bwallet\b/g, '').trim();
+  return n.startsWith(key);
+}
+
+function isMobile() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+/* Mobile browsers have no wallet extensions. If the wallet app is installed, hand the visitor over to it:
+   the wallet opens this same page in its own in-app browser, where it is detected automatically. */
+function openInWalletApp(entry) {
+  const proto = location.protocol;
+  if (!entry.deeplink || (proto !== 'http:' && proto !== 'https:')) return false;
+  const pageUrl = encodeURIComponent(location.origin + location.pathname + location.search);
+  const origin = encodeURIComponent(location.origin);
+  walletStatus.textContent = 'Opening ' + entry.label + '…';
+  window.location.href = entry.deeplink(pageUrl, origin);
+  return true;
+}
+
+function showInstall(entry) {
+  if (isMobile()) {
+    walletStatus.textContent = 'To connect ' + entry.label + ', open this page inside the ' + entry.label + ' app\u2019s browser. Don\u2019t have it? ';
+    const g = document.createElement('a');
+    g.href = entry.url;
+    g.target = '_blank';
+    g.rel = 'noopener noreferrer';
+    g.textContent = 'Get ' + entry.label;
+    walletStatus.appendChild(g);
+    return;
+  }
+  walletStatus.textContent = entry.label + ' was not detected in this browser. ';
+  const a = document.createElement('a');
+  a.href = entry.url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.textContent = 'Get ' + entry.label;
+  walletStatus.appendChild(a);
+  walletStatus.appendChild(document.createTextNode(', then reload this page.'));
+}
+
+function renderWallets() {
+  const detected = solanaWallets();
+  const used = new Set();
+
+  const entries = POPULAR_WALLETS.map(function(p) {
+    const w = detected.find(function(d) { return !used.has(d) && matchesKey(d, p.key); }) || null;
+    if (w) used.add(w);
+    return { key: p.key, label: w ? walletLabel(w) : p.name, wallet: w, url: p.url, deeplink: p.deeplink };
+  });
+  detected.forEach(function(w) {
+    if (!used.has(w)) entries.push({ label: walletLabel(w), wallet: w, url: null });
+  });
+
+  const ordered = entries.filter(function(e) { return e.wallet; })
+    .concat(entries.filter(function(e) { return !e.wallet; }));
+
+  walletList.innerHTML = '';
+
+  if (!detected.length) {
+    walletStatus.textContent = 'No Solana wallet was detected in this browser. Install one below, then reload the page.';
+  }
+
+  ordered.forEach(function(entry) {
+    const button = document.createElement('button');
+    button.className = 'witem' + (entry.wallet ? '' : ' off');
+    button.type = 'button';
+
+    const icon = document.createElement('span');
+    icon.className = 'wicon';
+    const src = entry.wallet && entry.wallet.icon;
+    if (typeof src === 'string' && src.indexOf('data:image/') === 0) {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      icon.appendChild(img);
+    } else if (entry.key && WALLET_ICONS[entry.key]) {
+      icon.innerHTML = WALLET_ICONS[entry.key];
+    } else {
+      icon.textContent = '◎';
+    }
+
+    const label = document.createElement('span');
+    label.className = 'wname';
+    label.textContent = entry.label;
+    if (entry.wallet) {
+      const tag = document.createElement('span');
+      tag.className = 'wtag';
+      tag.textContent = '(detected)';
+      label.appendChild(tag);
+    }
+
+    button.appendChild(icon);
+    button.appendChild(label);
+    button.addEventListener('click', function() {
+      if (entry.wallet) connectOnly(entry.wallet);
+      else if (isMobile() && openInWalletApp(entry)) return;
+      else showInstall(entry);
+    });
+    walletList.appendChild(button);
+  });
+}
+
+/* ---- connected wallet shown in the header ---- */
+const walletArea = document.getElementById('walletArea');
+const walletChip = document.getElementById('walletChip');
+const walletChipIcon = document.getElementById('walletChipIcon');
+const walletChipAddr = document.getElementById('walletChipAddr');
+const walletMenu = document.getElementById('walletMenu');
+const walletMenuName = document.getElementById('walletMenuName');
+const walletMenuAddr = document.getElementById('walletMenuAddr');
+const walletCopy = document.getElementById('walletCopy');
+const walletDisconnect = document.getElementById('walletDisconnect');
+const siteHeader = document.querySelector('header');
+const WALLET_STORE = 'ms-wallet';
+
+let connected = null;      /* { wallet, address } */
+let stopEvents = null;
+let reconnecting = false;
+let copyTimer = null;
+
+function shortChip(address) {
+  return address.length > 10 ? address.slice(0, 4) + '…' + address.slice(-4) : address;
+}
+
+function remember(name) { try { localStorage.setItem(WALLET_STORE, name); } catch (e) {} }
+function forget() { try { localStorage.removeItem(WALLET_STORE); } catch (e) {} }
+
+function paintChipIcon(wallet) {
+  walletChipIcon.innerHTML = '';
+  const src = wallet && wallet.icon;
+  if (typeof src === 'string' && src.indexOf('data:image/') === 0) {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    walletChipIcon.appendChild(img);
+    return;
+  }
+  const known = POPULAR_WALLETS.find(function(p) { return wallet && matchesKey(wallet, p.key); });
+  if (known && WALLET_ICONS[known.key]) walletChipIcon.innerHTML = WALLET_ICONS[known.key];
+  else walletChipIcon.textContent = '◎';
+}
+
+function paintConnected() {
+  if (!connected) return;
+  walletChipAddr.textContent = shortChip(connected.address);
+  walletMenuName.textContent = 'Connected · ' + walletLabel(connected.wallet);
+  walletMenuAddr.textContent = connected.address;
+  walletProfile.style.display = 'block';
+  walletAddress.textContent = connected.address;
+  window.connectedWalletAddress = connected.address;
+}
+
+function setConnected(wallet, address) {
+  if (stopEvents) { try { stopEvents(); } catch (e) {} stopEvents = null; }
+  connected = { wallet: wallet, address: address };
+  paintChipIcon(wallet);
+  paintConnected();
+  walletArea.hidden = false;
+  siteHeader.classList.add('is-connected');
+
+  /* follow account switches made inside the wallet itself */
+  const ev = wallet.features && wallet.features['standard:events'];
+  if (ev && typeof ev.on === 'function') {
+    stopEvents = ev.on('change', function(p) {
+      if (!connected || connected.wallet !== wallet || !p || !p.accounts) return;
+      const a = p.accounts[0];
+      if (a && a.address) { connected.address = a.address; paintConnected(); }
+      else clearConnected();
+    });
+  }
+}
+
+function clearConnected() {
+  if (stopEvents) { try { stopEvents(); } catch (e) {} stopEvents = null; }
+  connected = null;
+  window.connectedWalletAddress = null;
+  walletArea.hidden = true;
+  closeWalletMenu();
+  siteHeader.classList.remove('is-connected');
+  walletProfile.style.display = 'none';
+  walletAddress.textContent = '';
+  forget();
+}
+
+function openWalletMenu() {
+  walletMenu.hidden = false;
+  walletChip.setAttribute('aria-expanded', 'true');
+}
+function closeWalletMenu() {
+  walletMenu.hidden = true;
+  walletChip.setAttribute('aria-expanded', 'false');
+}
+
+walletChip.addEventListener('click', function(e) {
+  e.stopPropagation();
+  if (walletMenu.hidden) openWalletMenu(); else closeWalletMenu();
+});
+document.addEventListener('click', function(e) {
+  if (!walletMenu.hidden && !walletArea.contains(e.target)) closeWalletMenu();
+});
+
+walletCopy.addEventListener('click', function() {
+  if (!connected) return;
+  const text = connected.address;
+  function done(m) {
+    walletCopy.textContent = m;
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(function() { walletCopy.textContent = 'Copy address'; }, 1500);
+  }
+  function fallback() {
+    const a = document.createElement('textarea');
+    a.value = text;
+    a.setAttribute('readonly', '');
+    a.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(a);
+    a.select();
+    a.setSelectionRange(0, a.value.length);
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(a);
+    done(ok ? 'Copied' : 'Copy failed');
+  }
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function() { done('Copied'); }, fallback);
+  else fallback();
+});
+
+walletDisconnect.addEventListener('click', async function() {
+  const w = connected && connected.wallet;
+  try {
+    const f = w && w.features && w.features['standard:disconnect'];
+    if (f && typeof f.disconnect === 'function') await f.disconnect();
+  } catch (e) {}
+  clearConnected();
+  document.getElementById('msg').textContent = '';
+});
+
+/* Restore a previous connection without any prompt (wallets that don't allow silent connect are simply skipped). */
+async function silentReconnect() {
+  if (connected || reconnecting) return;
+  let name = null;
+  try { name = localStorage.getItem(WALLET_STORE); } catch (e) {}
+  if (!name) return;
+  const w = solanaWallets().find(function(x) { return x.name === name; });
+  const f = w && w.features && w.features['standard:connect'];
+  if (!f || typeof f.connect !== 'function') return;
+  reconnecting = true;
+  try {
+    const r = await f.connect({ silent: true });
+    const a = r && r.accounts && r.accounts[0];
+    if (a && a.address && !connected) setConnected(w, a.address);
+  } catch (e) {
+  } finally {
+    reconnecting = false;
+  }
+}
+
+async function connectOnly(wallet) {
+  selectedWallet = wallet;
+  walletStatus.textContent = 'Opening ' + walletLabel(wallet) + '…';
+  walletList.style.pointerEvents = 'none';
+
+  try {
+    /*
+      CONNECT ONLY:
+      We call the wallet's standard `connect` feature and read the returned
+      account address. We do NOT request signMessage, signTransaction,
+      signAndSendTransaction, or sendTransaction.
+    */
+    const connectFeature = wallet.features && wallet.features['standard:connect'];
+    if (!connectFeature || typeof connectFeature.connect !== 'function') {
+      throw new Error('This wallet does not expose the standard connect feature.');
+    }
+
+    const result = await connectFeature.connect();
+
+    const accounts = result && result.accounts ? result.accounts : [];
+    const account = accounts[0];
+
+    if (!account || !account.address) {
+      throw new Error('The wallet did not return a public wallet address.');
+    }
+
+    walletStatus.textContent = 'Wallet connected.';
+    walletProfile.style.display = 'block';
+    walletAddress.textContent = account.address;
+    document.getElementById('msg').textContent =
+      'Wallet connected: ' + shortAddress(account.address) + '. No transaction was requested.';
+
+    setConnected(wallet, account.address);
+    remember(wallet.name);
+    setTimeout(closeWalletModal, 700);
+  } catch (err) {
+    walletStatus.textContent = err && err.message
+      ? 'Connection cancelled or failed: ' + err.message
+      : 'Connection cancelled or failed.';
+  } finally {
+    walletList.style.pointerEvents = '';
+  }
+}
+
+function openWalletModal() {
+  walletModal.classList.add('show');
+  walletStatus.textContent = '';
+  walletProfile.style.display = 'none';
+  walletList.style.pointerEvents = '';
+  renderWallets();
+}
+
+function closeWalletModal() {
+  walletModal.classList.remove('show');
+}
+
+walletClose.addEventListener('click', closeWalletModal);
+walletModal.addEventListener('click', function(e) {
+  if (e.target === walletModal) closeWalletModal();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeWalletModal(); closeWalletMenu(); }
+});
+
+try {
+  walletRegistry = getWallets();
+  walletRegistry.on('register', function() { renderWallets(); silentReconnect(); });
+  renderWallets();
+  silentReconnect();
+} catch (err) {
+  walletStatus.textContent = 'Wallet support could not be initialized in this browser.';
+}
+
+/* Expose only the connect modal to the existing page button. */
+window.openWalletModal = openWalletModal;
+</script>
+</body>
+</html>
